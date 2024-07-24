@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.Courses.MultimediaManagementSystem.api.dto.errors.BaseErrorResponse;
 import com.Courses.MultimediaManagementSystem.api.dto.errors.ListErrorResponse;
+import com.Courses.MultimediaManagementSystem.util.exceptions.BadRequestException;
 import com.Courses.MultimediaManagementSystem.util.exceptions.ResourceNotFoundException;
 
 @RestControllerAdvice
@@ -54,6 +55,16 @@ public class ErrorHandlerController {
                 .code(HttpStatus.NOT_FOUND.value())
                 .status(HttpStatus.NOT_FOUND.name())
                 .errors(errors)
+                .build();
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public BaseErrorResponse handleBadRequestException(BadRequestException e) {
+        return BaseErrorResponse.builder()
+                .code(HttpStatus.BAD_REQUEST.value())
+                .status(HttpStatus.BAD_REQUEST.name())
+                .message(e.getMessage())
                 .build();
     }
 
