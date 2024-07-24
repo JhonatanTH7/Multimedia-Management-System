@@ -26,7 +26,7 @@ public class StudentRequest {
     private String email;
 
     @Schema(description = "Status of the Student, it could be either true or false", example = "true")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @Schema(description = "Id of the Class", example = "1")
     @NotNull(message = "The id of the Class is required")
