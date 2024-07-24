@@ -27,7 +27,7 @@ public class ClassEntityService implements IClassEntityService {
     private final ClassEntityMapper classEntityMapper;
 
     @Override
-    public Page<ClassEntityBasicResponse> getAll(Pageable pageable) {
+    public Page<ClassEntityBasicResponse> getAll(Pageable pageable, String name, String description) {
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 

@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import com.Courses.MultimediaManagementSystem.api.dto.request.StudentRequest;
 import com.Courses.MultimediaManagementSystem.api.dto.response.StudentResponse;
 import com.Courses.MultimediaManagementSystem.api.dto.response.basic.StudentBasicResponse;
+import com.Courses.MultimediaManagementSystem.domain.entities.ClassEntity;
 import com.Courses.MultimediaManagementSystem.domain.entities.Student;
+import com.Courses.MultimediaManagementSystem.domain.repositories.ClassEntityRepository;
 import com.Courses.MultimediaManagementSystem.domain.repositories.StudentRepository;
 import com.Courses.MultimediaManagementSystem.infrastructure.abstract_services.IEntityServices.IStudentService;
 import com.Courses.MultimediaManagementSystem.infrastructure.helpers.mappers.StudentMapper;
+import com.Courses.MultimediaManagementSystem.util.exceptions.BadRequestException;
 import com.Courses.MultimediaManagementSystem.util.exceptions.ResourceNotFoundException;
 
 import lombok.AllArgsConstructor;
@@ -24,36 +27,63 @@ public class StudentService implements IStudentService {
     private final StudentRepository studentRepository;
 
     @Autowired
+    private final ClassEntityRepository classEntityRepository;
+
+    @Autowired
     private final StudentMapper studentMapper;
 
     @Override
-    public Page<StudentBasicResponse> getAll(Pageable pageable) {
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    public Page<StudentBasicResponse> getAll(Pageable pageable, String name, String email) {
+        Page<Student> studentPage = studentRepository.findAll(pageable, name, email);
+        return studentPage.map(studentMapper::toEntityResponse);
     }
 
     @Override
     public StudentResponse getById(Long id) {
-        return this.studentMapper.toEntityResponse(this.findById(id));
+        validateId(id);
+        return this.studentMapper.toEntityResponse(this.find(id));
     }
 
     @Override
     public StudentResponse create(StudentRequest request) {
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        Student student = this.studentMapper.toEntity(request);
+        student.setClassEntity(this.findClassEntity(request.getClassEntityId()));
+        return this.studentMapper.toEntityResponse(this.studentRepository.save(student));
     }
 
     @Override
     public StudentResponse disable(Long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'disable'");
+        validateId(id);
+        Student student = this.find(id);
+        student.setIsActive(false);
+        return this.studentMapper.toEntityResponse(this.studentRepository.save(student));
     }
 
     @Override
     public StudentResponse update(StudentRequest request, Long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        validateId(id);
+        Student oldStudent = this.find(id);
+        if (oldStudent.getClassEntity().getId() != request.getClassEntityId()) {
+            oldStudent.setClassEntity(this.findClassEntity(request.getClassEntityId()));
+        }
+        this.studentMapper.toExistingEntity(request, oldStudent);
+        return this.studentMapper.toEntityResponse(this.studentRepository.save(oldStudent));
     }
 
-    private Student findById(Long id) {
+    private Student find(Long id) {
         return this.studentRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Student with the id <" + id + "> not found"));
+    }
+
+    private ClassEntity findClassEntity(Long id) {
+        return this.classEntityRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Class with the id <" + id + "> not found"));
+    }
+
+    private void validateId(Long id) {
+        if (id < 1) {
+            throw new BadRequestException("The id must be greater than or equal to 1");
+        }
     }
 
 }
