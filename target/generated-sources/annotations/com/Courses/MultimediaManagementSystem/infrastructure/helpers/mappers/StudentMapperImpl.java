@@ -1,7 +1,8 @@
 package com.Courses.MultimediaManagementSystem.infrastructure.helpers.mappers;
 
 import com.Courses.MultimediaManagementSystem.api.dto.request.StudentRequest;
-import com.Courses.MultimediaManagementSystem.api.dto.response.basic.StudentBasicResponse;
+import com.Courses.MultimediaManagementSystem.api.dto.response.StudentResponse;
+import com.Courses.MultimediaManagementSystem.api.dto.response.basic.ClassEntityBasicResponse;
 import com.Courses.MultimediaManagementSystem.domain.entities.ClassEntity;
 import com.Courses.MultimediaManagementSystem.domain.entities.Student;
 import javax.annotation.processing.Generated;
@@ -9,26 +10,27 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-23T21:13:14-0500",
+    date = "2024-07-23T22:27:26-0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.39.0.v20240620-1855, environment: Java 17.0.11 (Eclipse Adoptium)"
 )
 @Component
 public class StudentMapperImpl implements StudentMapper {
 
     @Override
-    public StudentBasicResponse toEntityResponse(Student student) {
+    public StudentResponse toEntityResponse(Student student) {
         if ( student == null ) {
             return null;
         }
 
-        StudentBasicResponse studentBasicResponse = new StudentBasicResponse();
+        StudentResponse studentResponse = new StudentResponse();
 
-        studentBasicResponse.setCreatedAt( student.getCreatedAt() );
-        studentBasicResponse.setEmail( student.getEmail() );
-        studentBasicResponse.setId( student.getId() );
-        studentBasicResponse.setName( student.getName() );
+        studentResponse.setCreatedAt( student.getCreatedAt() );
+        studentResponse.setEmail( student.getEmail() );
+        studentResponse.setId( student.getId() );
+        studentResponse.setName( student.getName() );
+        studentResponse.setClassEntity( classEntityToClassEntityBasicResponse( student.getClassEntity() ) );
 
-        return studentBasicResponse;
+        return studentResponse;
     }
 
     @Override
@@ -45,6 +47,21 @@ public class StudentMapperImpl implements StudentMapper {
         student.setName( studentRequest.getName() );
 
         return student;
+    }
+
+    protected ClassEntityBasicResponse classEntityToClassEntityBasicResponse(ClassEntity classEntity) {
+        if ( classEntity == null ) {
+            return null;
+        }
+
+        ClassEntityBasicResponse classEntityBasicResponse = new ClassEntityBasicResponse();
+
+        classEntityBasicResponse.setCreatedAt( classEntity.getCreatedAt() );
+        classEntityBasicResponse.setDescription( classEntity.getDescription() );
+        classEntityBasicResponse.setId( classEntity.getId() );
+        classEntityBasicResponse.setName( classEntity.getName() );
+
+        return classEntityBasicResponse;
     }
 
     protected ClassEntity studentRequestToClassEntity(StudentRequest studentRequest) {

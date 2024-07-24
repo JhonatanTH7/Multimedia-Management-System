@@ -5,13 +5,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import com.Courses.MultimediaManagementSystem.api.dto.request.ClassEntityRequest;
-import com.Courses.MultimediaManagementSystem.api.dto.response.basic.ClassEntityBasicResponse;
+import com.Courses.MultimediaManagementSystem.api.dto.response.ClassEntityResponse;
 import com.Courses.MultimediaManagementSystem.domain.entities.ClassEntity;
 
 @Mapper(componentModel = "spring")
 public interface ClassEntityMapper {
 
-    ClassEntityBasicResponse toEntityResponse(ClassEntity classEntity);
+    ClassEntityResponse toEntityResponse(ClassEntity classEntity);
 
     @Mappings({
             @Mapping(target = "id", ignore = true),
