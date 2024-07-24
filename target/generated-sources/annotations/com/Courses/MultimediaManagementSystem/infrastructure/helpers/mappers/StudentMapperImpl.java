@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-07-24T06:42:27-0500",
+    date = "2024-07-24T11:01:10-0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.39.0.v20240620-1855, environment: Java 17.0.11 (Eclipse Adoptium)"
 )
 @Component
@@ -47,6 +47,17 @@ public class StudentMapperImpl implements StudentMapper {
         student.setName( studentRequest.getName() );
 
         return student;
+    }
+
+    @Override
+    public void toExistingEntity(StudentRequest request, Student student) {
+        if ( request == null ) {
+            return;
+        }
+
+        student.setEmail( request.getEmail() );
+        student.setIsActive( request.getIsActive() );
+        student.setName( request.getName() );
     }
 
     protected ClassEntityBasicResponse classEntityToClassEntityBasicResponse(ClassEntity classEntity) {
