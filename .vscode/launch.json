@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-MultimediaManagementSystemApplication<MultimediaManagementSystem>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.Courses.MultimediaManagementSystem.MultimediaManagementSystemApplication",
+      "projectName": "MultimediaManagementSystem",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}
