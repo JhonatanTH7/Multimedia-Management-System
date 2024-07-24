@@ -23,4 +23,7 @@ public class StudentUpdateRequest {
     @Email(message = "Enter a valid email address")
     private String email;
 
+    @Schema(description = "Status of the Student, it could be either true or false", example = "true")
+    private Boolean isActive;
+
 }

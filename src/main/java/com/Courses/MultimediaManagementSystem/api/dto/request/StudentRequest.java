@@ -16,9 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StudentRequest extends StudentUpdateRequest {
 
-    @Schema(description = "Status of the Student, it could be either true or false", example = "true")
-    private Boolean isActive;
-
     @Schema(description = "Id of the Class", example = "1")
     @NotNull(message = "The id of the Class is required")
     @Min(value = 1, message = "The id of the Class must be greater than zero")
