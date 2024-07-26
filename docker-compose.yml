@@ -9,7 +9,7 @@ services:
       MYSQL_USER: user # specify user
       MYSQL_PASSWORD: password # specify password
     ports:
-      - "3307:3306" # specify port mapping
+      - "3306:3306" # specify port mapping
     volumes:
       - db_data:/var/lib/mysqli # specify volume to persist data
 
