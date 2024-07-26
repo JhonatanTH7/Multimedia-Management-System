@@ -32,14 +32,16 @@ public class Multimedia {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MultimediaType type;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String url;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private Boolean isActive;
 
     @ManyToOne

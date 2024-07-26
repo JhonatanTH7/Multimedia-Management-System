@@ -28,14 +28,16 @@ public class ClassEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
     private Boolean isActive;
 
     @OneToMany(mappedBy = "classEntity", cascade = CascadeType.ALL)
