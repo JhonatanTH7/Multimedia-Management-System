@@ -13,6 +13,7 @@ import com.Courses.MultimediaManagementSystem.domain.entities.Student;
 import com.Courses.MultimediaManagementSystem.domain.repositories.ClassEntityRepository;
 import com.Courses.MultimediaManagementSystem.domain.repositories.StudentRepository;
 import com.Courses.MultimediaManagementSystem.infrastructure.abstract_services.IEntityServices.IStudentService;
+import com.Courses.MultimediaManagementSystem.infrastructure.helpers.EmailHelper;
 import com.Courses.MultimediaManagementSystem.infrastructure.helpers.mappers.StudentMapper;
 import com.Courses.MultimediaManagementSystem.util.exceptions.BadRequestException;
 import com.Courses.MultimediaManagementSystem.util.exceptions.ResourceNotFoundException;
@@ -32,6 +33,9 @@ public class StudentService implements IStudentService {
     @Autowired
     private final StudentMapper studentMapper;
 
+    @Autowired
+    private final EmailHelper emailHelper;
+
     @Override
     public Page<StudentBasicResponse> getAll(Pageable pageable, String name, String email) {
         Page<Student> studentPage = studentRepository.findAll(pageable, name, email);
@@ -48,7 +52,9 @@ public class StudentService implements IStudentService {
     public StudentResponse create(StudentRequest request) {
         Student student = this.studentMapper.toEntity(request);
         student.setClassEntity(this.findClassEntity(request.getClassEntityId()));
-        return this.studentMapper.toEntityResponse(this.studentRepository.save(student));
+        student = this.studentRepository.save(student);
+        this.emailHelper.sendEmail(student.getEmail(), student.getName(), student.getCreatedAt());
+        return this.studentMapper.toEntityResponse(student);
     }
 
     @Override
