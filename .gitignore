@@ -7,6 +7,20 @@
 # BlueJ files
 *.ctxt
 
+# VS Code directory
+/.vscode/
+
+# Maven directory
+/.mvn/
+
+# Directories
+target/
+bin/
+build/
+.mvn/
+.maven/
+
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -22,3 +36,6 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Environment variables
+*.env
