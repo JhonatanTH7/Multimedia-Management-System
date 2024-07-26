@@ -8,17 +8,15 @@
 *.ctxt
 
 # VS Code directory
-/.vscode/
+*.vscode/
 
 # Maven directory
-/.mvn/
+*.mvn/
 
 # Directories
 target/
 bin/
 build/
-.mvn/
-.maven/
 
 
 # Mobile Tools for Java (J2ME)
